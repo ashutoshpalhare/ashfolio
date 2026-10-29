@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="g" x1="5" y1="5" x2="59" y2="59" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#8b5cf6"/>
+      <stop offset=".52" stop-color="#ec4899"/>
+      <stop offset="1" stop-color="#22d3ee"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="17" fill="#090910"/>
+  <rect x="2" y="2" width="60" height="60" rx="15" fill="none" stroke="url(#g)" stroke-width="2"/>
+  <text x="32" y="40" fill="url(#g)" font-family="Arial, sans-serif" font-size="23" font-weight="800" text-anchor="middle">AP</text>
+</svg>
