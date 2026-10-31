@@ -746,10 +746,11 @@ export default function Portfolio() {
 
   return (
     <>
+      <a className="skip-link" href="#main-content">Skip to main content</a>
       <motion.div className="progress-bar" style={{ scaleX }} />
       <div className="noise" aria-hidden="true" />
       <Navbar />
-      <main>
+      <main id="main-content" tabIndex={-1}>
         <Hero />
         <About />
         <Skills />
