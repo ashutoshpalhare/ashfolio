@@ -86,10 +86,10 @@ function SectionReveal({
   return (
     <motion.div
       className={className}
-      initial={reduceMotion ? { opacity: 1 } : { opacity: 0, y: 34 }}
-      whileInView={{ opacity: 1, y: 0 }}
+      initial={reduceMotion ? false : { opacity: 0, y: 34 }}
+      whileInView={reduceMotion ? undefined : { opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-80px" }}
-      transition={{ ...revealTransition, delay }}
+      transition={reduceMotion ? { duration: 0 } : { ...revealTransition, delay }}
     >
       {children}
     </motion.div>
@@ -195,7 +195,7 @@ function Navbar() {
                 aria-current={active === id ? "page" : undefined}
               >
                 {item.label}
-                {active === id ? <motion.span layoutId="nav-underline" /> : null}
+                {active === id ? <motion.span layoutId={reduceMotion ? undefined : "nav-underline"} /> : null}
               </a>
             );
           })}
@@ -741,13 +741,14 @@ function Footer() {
 }
 
 export default function Portfolio() {
+  const reduceMotion = useReducedMotion();
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, { stiffness: 140, damping: 30, restDelta: 0.001 });
 
   return (
     <>
       <a className="skip-link" href="#main-content">Skip to main content</a>
-      <motion.div className="progress-bar" style={{ scaleX }} />
+      <motion.div className="progress-bar" style={{ scaleX: reduceMotion ? scrollYProgress : scaleX }} />
       <div className="noise" aria-hidden="true" />
       <Navbar />
       <main id="main-content" tabIndex={-1}>
