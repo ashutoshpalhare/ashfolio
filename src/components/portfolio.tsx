@@ -269,7 +269,7 @@ function Hero() {
       <div className="hero-copy">
         <motion.div
           className="availability-pill"
-          initial={reduceMotion ? false : { opacity: 0, y: 16 }}}
+          initial={reduceMotion ? false : { opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={reduceMotion ? { duration: 0 } : { ...revealTransition, delay: 0.12 }}
         >
@@ -279,7 +279,7 @@ function Hero() {
 
         <motion.p
           className="hero-intro"
-          initial={reduceMotion ? false : { opacity: 0, y: 18 }}}
+          initial={reduceMotion ? false : { opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
           transition={reduceMotion ? { duration: 0 } : { ...revealTransition, delay: 0.2 }}
         >
@@ -287,7 +287,7 @@ function Hero() {
         </motion.p>
 
         <motion.h1
-          initial={reduceMotion ? false : { opacity: 0, y: 26 }}}
+          initial={reduceMotion ? false : { opacity: 0, y: 26 }}
           animate={{ opacity: 1, y: 0 }}
           transition={reduceMotion ? { duration: 0 } : { ...revealTransition, delay: 0.3 }}
         >
@@ -297,7 +297,7 @@ function Hero() {
 
         <motion.p
           className="hero-role"
-          initial={reduceMotion ? false : { opacity: 0, y: 22 }}}
+          initial={reduceMotion ? false : { opacity: 0, y: 22 }}
           animate={{ opacity: 1, y: 0 }}
           transition={reduceMotion ? { duration: 0 } : { ...revealTransition, delay: 0.4 }}
         >
@@ -305,7 +305,7 @@ function Hero() {
         </motion.p>
 
         <motion.blockquote
-          initial={reduceMotion ? false : { opacity: 0, y: 20 }}}
+          initial={reduceMotion ? false : { opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={reduceMotion ? { duration: 0 } : { ...revealTransition, delay: 0.48 }}
         >
@@ -314,7 +314,7 @@ function Hero() {
 
         <motion.div
           className="hero-actions"
-          initial={{ opacity: 0, y: 20 }}
+          initial={reduceMotion ? false : { opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={reduceMotion ? { duration: 0 } : { ...revealTransition, delay: 0.56 }}
         >
@@ -328,7 +328,7 @@ function Hero() {
 
         <motion.div
           className="hero-meta"
-          initial={reduceMotion ? false : { opacity: 0 }}}
+          initial={reduceMotion ? false : { opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={reduceMotion ? { duration: 0 } : { duration: 0.8, delay: 0.7 }}
         >
@@ -340,7 +340,7 @@ function Hero() {
 
       <motion.div
         className="portrait-stage"
-        initial={reduceMotion ? false : { opacity: 0, scale: 0.88, x: 28 }}}
+        initial={reduceMotion ? false : { opacity: 0, scale: 0.88, x: 28 }}
         animate={{ opacity: 1, scale: 1, x: 0 }}
         transition={reduceMotion ? { duration: 0 } : { duration: 0.9, delay: 0.22, ease: [0.22, 1, 0.36, 1] }}
       >
