@@ -126,6 +126,7 @@ function Navbar() {
   const [active, setActive] = useState("home");
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const reduceMotion = useReducedMotion();
   const menuButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
@@ -222,19 +223,19 @@ function Navbar() {
           <motion.div
             id="mobile-navigation"
             className="mobile-menu"
-            initial={{ opacity: 0, y: -12 }}
+            initial={reduceMotion ? false : { opacity: 0, y: -12 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -12 }}
-            transition={{ duration: 0.24 }}
+            exit={reduceMotion ? undefined : { opacity: 0, y: -12 }}
+            transition={{ duration: reduceMotion ? 0 : 0.24 }}
           >
             {navItems.map((item, index) => (
               <motion.a
                 key={item.href}
                 href={item.href}
                 onClick={() => setMenuOpen(false)}
-                initial={{ opacity: 0, x: -16 }}
+                initial={reduceMotion ? false : { opacity: 0, x: -16 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: index * 0.045 }}
+                transition={{ duration: reduceMotion ? 0 : 0.2, delay: reduceMotion ? 0 : index * 0.045 }}
                 className={active === item.href.slice(1) ? "active" : ""}
               >
                 <span>0{index + 1}</span>
@@ -268,9 +269,9 @@ function Hero() {
       <div className="hero-copy">
         <motion.div
           className="availability-pill"
-          initial={{ opacity: 0, y: 16 }}
+          initial={reduceMotion ? false : { opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ ...revealTransition, delay: 0.12 }}
+          transition={reduceMotion ? { duration: 0 } : { ...revealTransition, delay: 0.12 }}
         >
           <span className="pulse-dot" />
           Available for interesting work
@@ -278,17 +279,17 @@ function Hero() {
 
         <motion.p
           className="hero-intro"
-          initial={{ opacity: 0, y: 18 }}
+          initial={reduceMotion ? false : { opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ ...revealTransition, delay: 0.2 }}
+          transition={reduceMotion ? { duration: 0 } : { ...revealTransition, delay: 0.2 }}
         >
           Hi, I&apos;m Ashutosh <span>👋</span>
         </motion.p>
 
         <motion.h1
-          initial={{ opacity: 0, y: 26 }}
+          initial={reduceMotion ? false : { opacity: 0, y: 26 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ ...revealTransition, delay: 0.3 }}
+          transition={reduceMotion ? { duration: 0 } : { ...revealTransition, delay: 0.3 }}
         >
           I turn ideas into
           <span className="gradient-text"> digital experiences.</span>
@@ -296,26 +297,26 @@ function Hero() {
 
         <motion.p
           className="hero-role"
-          initial={{ opacity: 0, y: 22 }}
+          initial={reduceMotion ? false : { opacity: 0, y: 22 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ ...revealTransition, delay: 0.4 }}
+          transition={reduceMotion ? { duration: 0 } : { ...revealTransition, delay: 0.4 }}
         >
           {profile.role} <i /> {profile.secondaryRole}
         </motion.p>
 
         <motion.blockquote
-          initial={{ opacity: 0, y: 20 }}
+          initial={reduceMotion ? false : { opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ ...revealTransition, delay: 0.48 }}
+          transition={reduceMotion ? { duration: 0 } : { ...revealTransition, delay: 0.48 }}
         >
           “{profile.tagline}”
         </motion.blockquote>
 
         <motion.div
           className="hero-actions"
-          initial={{ opacity: 0, y: 20 }}
+          initial={reduceMotion ? false : { opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ ...revealTransition, delay: 0.56 }}
+          transition={reduceMotion ? { duration: 0 } : { ...revealTransition, delay: 0.56 }}
         >
           <a href="#projects" className="gradient-button">
             Explore my work <ArrowDown size={17} />
@@ -327,9 +328,9 @@ function Hero() {
 
         <motion.div
           className="hero-meta"
-          initial={{ opacity: 0 }}
+          initial={reduceMotion ? false : { opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 0.8, delay: 0.7 }}
+          transition={reduceMotion ? { duration: 0 } : { duration: 0.8, delay: 0.7 }}
         >
           <span><MapPin size={15} /> {profile.location}</span>
           <span className="meta-separator" />
@@ -339,9 +340,9 @@ function Hero() {
 
       <motion.div
         className="portrait-stage"
-        initial={{ opacity: 0, scale: 0.88, x: 28 }}
+        initial={reduceMotion ? false : { opacity: 0, scale: 0.88, x: 28 }}
         animate={{ opacity: 1, scale: 1, x: 0 }}
-        transition={{ duration: 0.9, delay: 0.22, ease: [0.22, 1, 0.36, 1] }}
+        transition={reduceMotion ? { duration: 0 } : { duration: 0.9, delay: 0.22, ease: [0.22, 1, 0.36, 1] }}
       >
         <div className="portrait-ring ring-one" />
         <div className="portrait-ring ring-two" />
@@ -441,6 +442,8 @@ function About() {
 const skillIcons = [Code2, Server, Layers3, ShieldCheck];
 
 function Skills() {
+  const reduceMotion = useReducedMotion();
+
   return (
     <section id="skills" className="content-section section-shell">
       <SectionHeading
@@ -455,7 +458,7 @@ function Skills() {
           const Icon = skillIcons[index];
           return (
             <SectionReveal key={group.title} delay={index * 0.08}>
-              <motion.article className={`skill-card glass-card accent-${group.accent}`} whileHover={{ y: -7 }} transition={{ duration: 0.25 }}>
+              <motion.article className={`skill-card glass-card accent-${group.accent}`} whileHover={reduceMotion ? undefined : { y: -7 }} transition={{ duration: reduceMotion ? 0 : 0.25 }}>
                 <div className="skill-card-head">
                   <span className="skill-icon"><Icon size={21} /></span>
                   <span className="skill-index">0{index + 1}</span>
@@ -550,6 +553,7 @@ function ProjectVisual({ project }: { project: (typeof projects)[number] }) {
 }
 
 function Projects() {
+  const reduceMotion = useReducedMotion();
   const [activeCategory, setActiveCategory] = useState<(typeof categories)[number]>("All");
   const visibleProjects = useMemo(
     () => activeCategory === "All" ? projects : projects.filter((project) => project.category === activeCategory),
@@ -582,17 +586,17 @@ function Projects() {
         <span>{visibleProjects.length.toString().padStart(2, "0")} projects</span>
       </SectionReveal>
 
-      <motion.div layout className="projects-grid">
-        <AnimatePresence mode="popLayout">
+      <motion.div layout={!reduceMotion} className="projects-grid">
+        <AnimatePresence mode="popLayout" initial={!reduceMotion}>
           {visibleProjects.map((project, index) => (
             <motion.article
-              layout
+              layout={!reduceMotion}
               key={project.title}
               className={`project-card glass-card ${project.featured ? "featured" : ""}`}
-              initial={{ opacity: 0, y: 25, scale: 0.98 }}
+              initial={reduceMotion ? false : { opacity: 0, y: 25, scale: 0.98 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: -15, scale: 0.97 }}
-              transition={{ duration: 0.45, delay: index * 0.045, ease: [0.22, 1, 0.36, 1] }}
+              exit={reduceMotion ? undefined : { opacity: 0, y: -15, scale: 0.97 }}
+              transition={reduceMotion ? { duration: 0 } : { duration: 0.45, delay: index * 0.045, ease: [0.22, 1, 0.36, 1] }}
             >
               <ProjectVisual project={project} />
               <div className="project-content">
