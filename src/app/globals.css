@@ -1670,6 +1670,13 @@ button {
   min-height: 48px;
 }
 
+.form-feedback {
+  margin: -5px 0 0;
+  color: #898497;
+  font-size: 11px;
+  line-height: 1.6;
+}
+
 .footer {
   padding-top: 30px;
   padding-bottom: 30px;

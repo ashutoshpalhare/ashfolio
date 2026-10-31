@@ -27,7 +27,7 @@ import {
   X,
 } from "lucide-react";
 import type { FormEvent, ReactNode } from "react";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   experiences,
   navItems,
@@ -126,6 +126,7 @@ function Navbar() {
   const [active, setActive] = useState("home");
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -152,6 +153,20 @@ function Navbar() {
     sections.forEach((section) => observer.observe(section));
     return () => observer.disconnect();
   }, []);
+
+  useEffect(() => {
+    if (!menuOpen) return;
+
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        setMenuOpen(false);
+        menuButtonRef.current?.focus();
+      }
+    }
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [menuOpen]);
 
   useEffect(() => {
     document.body.style.overflow = menuOpen ? "hidden" : "";
@@ -194,6 +209,8 @@ function Navbar() {
           type="button"
           aria-label={menuOpen ? "Close menu" : "Open menu"}
           aria-expanded={menuOpen}
+          aria-controls={menuOpen ? "mobile-navigation" : undefined}
+          ref={menuButtonRef}
           onClick={() => setMenuOpen((value) => !value)}
         >
           {menuOpen ? <X size={22} /> : <Menu size={22} />}
@@ -203,6 +220,7 @@ function Navbar() {
       <AnimatePresence>
         {menuOpen ? (
           <motion.div
+            id="mobile-navigation"
             className="mobile-menu"
             initial={{ opacity: 0, y: -12 }}
             animate={{ opacity: 1, y: 0 }}
@@ -608,13 +626,20 @@ function Projects() {
 }
 
 function Contact() {
-  const [copied, setCopied] = useState(false);
+  const [copyStatus, setCopyStatus] = useState<"idle" | "copied" | "failed">("idle");
   const [submitted, setSubmitted] = useState(false);
 
   async function copyEmail() {
-    await navigator.clipboard.writeText(profile.email);
-    setCopied(true);
-    window.setTimeout(() => setCopied(false), 1800);
+    try {
+      if (!navigator.clipboard?.writeText) {
+        throw new Error("Clipboard API is unavailable");
+      }
+      await navigator.clipboard.writeText(profile.email);
+      setCopyStatus("copied");
+      window.setTimeout(() => setCopyStatus("idle"), 1800);
+    } catch {
+      setCopyStatus("failed");
+    }
   }
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -648,7 +673,9 @@ function Contact() {
           <p>Tell me what you&apos;re working on, what&apos;s stuck, or what you want to bring to life. I&apos;ll get back to you as soon as I can.</p>
           <button type="button" onClick={copyEmail} className="email-copy">
             <span><Mail size={18} /> {profile.email}</span>
-            {copied ? <><Check size={17} /> Copied</> : <><Copy size={16} /> Copy</>}
+            <span aria-live="polite">
+              {copyStatus === "copied" ? <><Check size={17} /> Copied</> : copyStatus === "failed" ? "Copy unavailable" : <><Copy size={16} /> Copy</>}
+            </span>
           </button>
           <div className="contact-socials">
             <a href={profile.socials.github} target="_blank" rel="noreferrer" aria-label="GitHub"><Github size={18} /></a>
@@ -678,6 +705,11 @@ function Contact() {
               {submitted ? "Opening your email app" : "Send a message"}
               {submitted ? <Check size={17} /> : <ArrowUpRight size={17} />}
             </button>
+            {submitted ? (
+              <p className="form-feedback" role="status">
+                Your email app should open with the message prefilled. It is not sent until you press Send in that app.
+              </p>
+            ) : null}
           </form>
         </SectionReveal>
       </div>
