@@ -1,0 +1,37 @@
+name: Refresh dependency lockfile (temporary)
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: refresh-lockfile-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out selected branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          persist-credentials: true
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Remove unused database packages and regenerate lockfile
+        run: npm uninstall dotenv drizzle-orm pg drizzle-kit @types/pg --ignore-scripts --no-audit --no-fund
+
+      - name: Commit dependency changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add package.json package-lock.json
+          git commit -m "chore: remove unused database dependencies"
+          git push origin HEAD:${{ github.ref_name }}
