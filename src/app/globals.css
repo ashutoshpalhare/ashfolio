@@ -82,6 +82,26 @@ button {
   cursor: pointer;
 }
 
+.skip-link {
+  position: fixed;
+  z-index: 300;
+  top: 12px;
+  left: 12px;
+  padding: 11px 16px;
+  border: 1px solid var(--cyan);
+  border-radius: 8px;
+  background: #08080d;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  transform: translateY(calc(-100% - 20px));
+  transition: transform 0.2s ease;
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
 :focus-visible {
   border-radius: 5px;
   outline: 2px solid var(--cyan);
