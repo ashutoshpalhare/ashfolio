@@ -9,7 +9,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "test:a11y": "playwright test"
   },
   "dependencies": {
     "framer-motion": "^14.3.0",
