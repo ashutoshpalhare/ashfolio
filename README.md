@@ -41,6 +41,7 @@ Open http://localhost:3000 to view the development site.
 | `npm run lint` | Run ESLint |
 | `npm run typecheck` | Run TypeScript checks |
 | `npm run build` | Build the production/static-export output |
+| `npm run test:a11y` | Run Playwright and axe accessibility checks against the static export |
 | `npm start` | Start the Next.js production server (for a non-static deployment) |
 
 ## Project structure
