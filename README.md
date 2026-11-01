@@ -64,6 +64,7 @@ npm ci
 npm run lint
 npm run typecheck
 npm run build
+npm run test:a11y
 ```
 
 Pull requests targeting `main` run the CI workflow, which installs from the lockfile and checks linting, types, and the production build.
