@@ -179,7 +179,7 @@ function Navbar() {
   return (
     <header className={`site-header ${scrolled ? "is-scrolled" : ""}`}>
       <nav className="nav-shell" aria-label="Main navigation">
-        <a href="#home" className="brand" aria-label="Ashutosh Palhare, home">
+        <a href="#home" className="brand" aria-label="AP — Ashutosh Palhare home">
           <span className="brand-mark">AP</span>
           <span className="brand-dot" />
         </a>
@@ -372,7 +372,7 @@ function Hero() {
         </div>
       </motion.div>
 
-      <a href="#about" className="scroll-cue" aria-label="Scroll to about section">
+      <a href="#about" className="scroll-cue" aria-label="Scroll to explore — about section">
         <span>Scroll to explore</span>
         <i><ArrowDown size={14} /></i>
       </a>
