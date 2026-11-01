@@ -15,6 +15,7 @@ Ashfolio is a statically exported portfolio deployed to GitHub Pages. The site i
 - Tailwind CSS 4
 - Framer Motion
 - Lucide React
+- Playwright and axe-core for automated accessibility testing
 - GitHub Actions and GitHub Pages
 
 ## Requirements
@@ -49,15 +50,18 @@ Open http://localhost:3000 to view the development site.
 ```text
 .github/workflows/   GitHub Actions CI and Pages deployment
 public/              Static public assets
+scripts/             Static-export test server
 src/app/             App Router layout, page, metadata routes and styles
 src/components/      Portfolio UI
 src/data/            Portfolio content and profile data
+tests/               Playwright accessibility tests
 next.config.ts       Static export and GitHub Pages path configuration
+playwright.config.ts Browser test configuration
 ```
 
 ## Quality checks
 
-Before proposing changes, run:
+Run the complete local quality suite before proposing changes:
 
 ```bash
 npm ci
@@ -67,17 +71,24 @@ npm run build
 npm run test:a11y
 ```
 
-Pull requests targeting `main` run the CI workflow, which installs from the lockfile and checks linting, types, and the production build.
+The Playwright suite serves the generated static export under the real `/ashfolio/` project-site path and checks:
+
+- Desktop page accessibility against WCAG 2.0/2.1 A/AA and axe best-practice rules.
+- Expanded mobile navigation accessibility.
+- Skip-link behavior, keyboard activation, Escape handling, and focus restoration.
+
+Pull requests targeting `main` run linting, TypeScript checks, the static build, and the browser accessibility suite in GitHub Actions.
 
 ## Deployment
 
-The site is deployed automatically to GitHub Pages when changes are pushed to `main`. The workflow:
+The site is deployed automatically to GitHub Pages when changes are pushed to `main`. The deployment workflow:
 
 1. Checks out the repository and sets up Node.js 22.
 2. Installs the exact dependency versions with `npm ci`.
 3. Runs ESLint and TypeScript checks.
 4. Builds the Next.js static export into `out/`.
-5. Uploads and deploys the Pages artifact.
+5. Installs Chromium and runs the Playwright accessibility suite.
+6. Uploads and deploys the Pages artifact only after all checks pass.
 
 The Next.js configuration detects GitHub Actions and derives the project-site base path (`/ashfolio`) from the repository name. For local development, that GitHub Pages base path is not applied.
 
