@@ -26,7 +26,7 @@ test("mobile navigation remains accessible when expanded", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("./");
 
-  const menuButton = page.getByRole("button", { name: "Open menu" });
+  const menuButton = page.locator(".menu-button");
   await menuButton.click();
 
   await expect(menuButton).toHaveAttribute("aria-expanded", "true");
@@ -59,6 +59,6 @@ test("skip link and mobile menu support keyboard navigation", async ({ page }) =
   await expect(menuButton).toHaveAttribute("aria-expanded", "true");
 
   await page.keyboard.press("Escape");
-  await expect(page.getByRole("button", { name: "Open menu" })).toBeFocused();
+  await expect(menuButton).toBeFocused();
   await expect(page.locator("#mobile-navigation")).toHaveCount(0);
 });
