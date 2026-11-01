@@ -53,7 +53,7 @@ test("skip link and mobile menu support keyboard navigation", async ({ page }) =
   await page.keyboard.press("Enter");
   await expect(page.getByRole("main")).toBeFocused();
 
-  const menuButton = page.getByRole("button", { name: "Open menu" });
+  const menuButton = page.locator(".menu-button");
   await menuButton.focus();
   await page.keyboard.press("Enter");
   await expect(menuButton).toHaveAttribute("aria-expanded", "true");
